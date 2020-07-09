@@ -1,6 +1,7 @@
 import {useState, useCallback} from 'react'
 import { FiSearch } from 'react-icons/fi'
 import styled from "styled-components";
+import { shade } from 'polished';
 
 const Container = styled.div`
   display: flex;
@@ -10,7 +11,7 @@ const Container = styled.div`
     padding: 10px;
     border-radius: 0.5rem;
     margin-right: 10px;
-    border: 2px solid transparent;
+    border: 1px solid ${({theme}) => theme.colors.gray1};
     transition: border 0.3s ;
     &:focus {
       border: 2px solid ${({theme}) => theme.colors.primary}
@@ -24,7 +25,7 @@ const Container = styled.div`
     border-radius: 0.5rem;
     transition: background 0.3s;
     &:hover {
-      background: #1DAB77;
+      background: ${(props) => shade(0.2, props.theme.colors.primary)};
     }
     svg {
       color: #FFF;
@@ -49,6 +50,7 @@ const Search: React.FC<SearchProps> = ({placeholder, handleSearch}) => {
       <input 
         type="text" 
         placeholder={placeholder}
+        value={search}
         onChange={(e) => setSearch(e.target.value)}
       /> 
       <button onClick={handleSubmit}>
