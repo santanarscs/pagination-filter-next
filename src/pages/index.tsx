@@ -5,6 +5,7 @@ import Router, { useRouter } from 'next/dist/client/router';
 import useProducts from '../hooks/products'
 import Pagination from '../components/Pagination';
 import Search from '../components/Search';
+import { formatPrice } from '../utils/formatPrice';
 
 const Container = styled.div`
   height: 100vh;
@@ -38,27 +39,14 @@ const ProductsList = styled.ul`
     }
     strong{
       font-size: 14px;
-      font-weight:bold;
-      line-height: 32px;
-      letter-spacing: 0.2rem;
+      line-height: 24px;
+      color: ${({theme}) => theme.colors.gray1};
     }
-    small {
+    span {
       font-size: 16px;
       font-weight: bold;
-    }
-    button {
-      width: 100%;
-      background: ${({theme}) => theme.colors.primary};
-      color: ${({theme}) => theme.colors.text};
-      border: none;
-      height: 50px;
-      border-radius: 5px;
-      text-transform: uppercase;
-      font-weight: bold;
-      transition: background .3s;
-      &:hover {
-        background: #1DAB77;
-      }
+      line-height: 32px;
+      margin: 10px 0;
     }
   }
 `
@@ -121,7 +109,7 @@ export const Home: React.FC<HomeProps> = (): JSX.Element => {
             <li key={product.id}>
               <img src={product.image} alt={product.name}/> 
               <strong>{product.name}</strong>
-              <button>Detalhes</button>
+              <span>{formatPrice(product.price)}</span>
             </li>
           ))}
         </ProductsList>

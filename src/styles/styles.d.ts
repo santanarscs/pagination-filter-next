@@ -5,6 +5,9 @@ declare module 'styled-components' {
       primary: string;
       background: string;
       text: string;
+      pink: string;
+      gray1: string;
+      white: string;
     }
   }
 }
