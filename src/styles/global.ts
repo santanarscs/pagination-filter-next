@@ -13,7 +13,7 @@ const GlobalStyle =  createGlobalStyle`
     text-rendering: optimizeLegibility;
   }
   body, input, button {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 16px;
   }
   h1, h2, h3, h4, h5, h6, strong {
