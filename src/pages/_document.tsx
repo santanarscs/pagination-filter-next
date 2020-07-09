@@ -56,7 +56,7 @@ export default class MyDocument extends Document {
         <Head>
           <title>paginação e search com nextjs</title>
           <link rel="icon" href="/favicon.ico" />
-          <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet" />
         </Head>
         <body>
           <Main />
