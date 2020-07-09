@@ -13,6 +13,7 @@ const Container = styled.div`
     li {
       a {
         text-decoration: none;
+        font-weight: bold;
         color: ${({theme}) => theme.colors.text};
         padding-right: 20px;
         &:hover {
