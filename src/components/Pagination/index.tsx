@@ -32,7 +32,7 @@ const Pagination: React.FC<PaginationProps> = ({totalPages, totalCount}) => {
   const [arrayPages, setArrayPages] = useState<number[]>([])
   const { query } = useRouter();
   useEffect(() => {
-    const link = Array(totalPages).fill('');
+    const link = Array(totalPages || 1).fill('');
     setArrayPages(link.map((link, index) => index + 1))
   },[totalPages])
   
