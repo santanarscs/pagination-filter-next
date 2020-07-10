@@ -6,6 +6,7 @@ import useProducts from '../hooks/products'
 import Pagination from '../components/Pagination';
 import Search from '../components/Search';
 import { formatPrice } from '../utils/formatPrice';
+import Link from 'next/link';
 
 const Container = styled.div`
   height: 100vh;
@@ -32,11 +33,6 @@ const ProductsList = styled.ul`
     flex-direction: column;
     justify-content: space-between;
     width: 295px;
-    img {
-      height: 260px;
-      width: 100%;
-      border-radius: 5px;
-    }
     strong{
       font-size: 14px;
       line-height: 24px;
@@ -50,6 +46,52 @@ const ProductsList = styled.ul`
     }
   }
 `
+const ImageContainer = styled.div`
+  position: relative;
+  height: 260px;
+  width: 100%;
+      
+  img {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transition: .5s ease;
+    backface-visibility: hidden;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  > div {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: ${({theme}) => theme.colors.primary};
+    color: ${({theme}) => theme.colors.white};
+    height: 50px;
+    width:160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  &:hover img {
+    opacity: 0.3;
+  }
+  &:hover > div {
+    opacity: 1
+  }
+  a {
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: ${({theme}) => theme.colors.white};
+  }
+`;
 
 interface Product {
   id: string;
@@ -107,7 +149,14 @@ export const Home: React.FC<HomeProps> = (): JSX.Element => {
         <ProductsList>
           {products?.map(product => (
             <li key={product.id}>
-              <img src={product.image} alt={product.name}/> 
+              <ImageContainer>
+                <img src={`http://localhost:3333/files/${product.principal_image}`} alt={product.name}/> 
+                <div>
+                  <Link href="/product/id" as={`/product/${product.id}`}>
+                    <a >ver detalhes</a>
+                  </Link>
+                </div>
+              </ImageContainer>
               <strong>{product.name}</strong>
               <span>{formatPrice(product.price)}</span>
             </li>
