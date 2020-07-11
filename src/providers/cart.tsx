@@ -9,6 +9,7 @@ export interface Product {
   quantity: number
   category_id?: string
   images?: any[]
+  principal_image: string;
 }
 
 interface CartState {
