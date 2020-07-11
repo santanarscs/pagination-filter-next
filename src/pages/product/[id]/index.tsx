@@ -88,6 +88,7 @@ interface Product {
   tags: string[];
   principal_image: string;
   description: string
+  formatterPrice?: string
 }
 
 interface ProductProps {
@@ -97,9 +98,13 @@ interface ProductProps {
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
   const { id } = params;
   const response = await api.get(`products/${id}`)
+  const product = {
+    ...response.data,
+    formatterPrice: formatPrice(response.data.price)
+  }
   return {
     props: {
-      product: response.data
+      product
     }
   }
 }
@@ -127,7 +132,7 @@ const Product: React.FC<ProductProps> = ({product}) => {
           <h2>{product.name}</h2>
           <div>
             <span>Valor:</span>
-            <h1>{formatPrice(product.price)}</h1>
+            <h1>{product.formatterPrice}</h1>
             <ButtonGroup>
               <button>-</button> <span>1</span><button>+</button>
             </ButtonGroup>
