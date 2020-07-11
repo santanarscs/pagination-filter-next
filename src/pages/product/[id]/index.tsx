@@ -3,9 +3,8 @@ import { GetServerSideProps } from "next";
 import api from "../../../services/api";
 import { formatPrice } from "../../../utils/formatPrice";
 import Navbar from "../../../components/Nav";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useCart } from "../../../providers/cart";
-import Cart from "../../../components/Cart";
 
 const Container = styled.div`
   height: 100vh;
@@ -110,17 +109,11 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
 }
 
 const Product: React.FC<ProductProps> = ({product}) => {
-  const [openCart, setOpenCart] = useState<boolean>(false)
-  const { addToCart } = useCart()
+  const { addToCart, openCart } = useCart()
   const handleAddCart = useCallback(async () => {
     await addToCart(product.id)
-    setOpenCart(true)
-  }, [product, openCart])
-
-  const handleCloseCart = useCallback(() => {
-    setOpenCart(false)
-  }, [])
-
+    openCart()
+  }, [product])
   return (
     <Container>
       <Navbar />
@@ -144,7 +137,6 @@ const Product: React.FC<ProductProps> = ({product}) => {
           </div>
         </ProductInformation>
       </Content>
-      {openCart && <Cart closeCart={handleCloseCart}/>}
     </Container>
   )
 }
