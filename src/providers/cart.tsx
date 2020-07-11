@@ -27,7 +27,7 @@ interface CartContextData {
 }
 const CartContext = createContext<CartContextData>({} as CartContextData);
 const CartProvider: React.FC = ({children}) => {
-  const [loading, setLoading ] = useState<boolean>(false)
+  const [loading ] = useState<boolean>(false)
   const [data, setData] = useState<CartState>({
     items: [],
     total: 0
@@ -36,7 +36,7 @@ const CartProvider: React.FC = ({children}) => {
     setData(() => {
       const items = localStorage.getItem('@store-cart:items');
       const total = localStorage.getItem('@store-cart:total');
-      
+
       if(items) {
         return {items: JSON.parse(items), total: Number(total) || 0}
       }
@@ -96,13 +96,13 @@ const CartProvider: React.FC = ({children}) => {
       return data;
     })
   },[])
-  
+
   const updateAmount = useCallback(async (id: string, amount: number) => {
     if (amount <= 0) return;
     const {data: product} = await api.get<Product>(`products/${id}`)
     const stockAmount = product.quantity;
     if(amount > stockAmount) {
-      console.log('quantidade solicitada fora de estoque')
+      alert('quantidade solicitada fora de estoque')
       return;
     }
     setData(state => {
