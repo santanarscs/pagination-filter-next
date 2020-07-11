@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import {  useCallback } from "react";
-import { FiX, FiTrash } from "react-icons/fi";
+import { FiX, FiTrash, FiMinus, FiPlus } from "react-icons/fi";
 import { useCart } from "../../providers/cart";
+import { formatPrice } from "../../utils/formatPrice";
 
 
 const Container = styled.div`
@@ -48,6 +49,9 @@ const Content = styled.div`
         border: 0;
         background: transparent;
         color: ${({theme}) => theme.colors.white};
+      }
+      & + li {
+        margin-top: 15px;
       }
     }
   }
@@ -127,10 +131,18 @@ interface CartProps {
 }
 
 const Cart: React.FC<CartProps> = ({closeCart}) => {
-  const { items } = useCart()
+  const { items, removeFromCart, total, updateAmount } = useCart()
   const handleCloseCart = useCallback(() => {
     closeCart(false)
   }, [])
+
+  const handleRemoveItem = useCallback(async (id: string) => {
+    await removeFromCart(id);
+  }, [])
+
+  const handleUpdateAmount = useCallback(async (id: string, amount: number) => {
+    await updateAmount(id, amount)
+  },[])
 
   return (
     <Container>
@@ -146,10 +158,17 @@ const Cart: React.FC<CartProps> = ({closeCart}) => {
               <div>
                 <strong>{item.name}</strong>
                 <ButtonGroup>
-                  <button>-</button><span>1</span><button>+</button><strong>{item.price}</strong>
+                  <button onClick={() => handleUpdateAmount(item.id, item.quantity - 1)}>
+                    <FiMinus size={10}/>
+                  </button>
+                    <span>{item.quantity}</span>
+                  <button onClick={() => handleUpdateAmount(item.id, item.quantity + 1)}>
+                    <FiPlus size={10} />
+                  </button>
+                  <strong>{formatPrice(item.price * item.quantity)}</strong>
                 </ButtonGroup>
               </div>
-              <button>
+              <button onClick={() => handleRemoveItem(item.id)}>
                 <FiTrash size={25}/>
               </button>
             </li>
@@ -157,7 +176,7 @@ const Cart: React.FC<CartProps> = ({closeCart}) => {
         </ul>
         <FooterContent>
           <h1>Subtotal</h1>
-          <span>R$ 350,00</span>
+          <span>{formatPrice(total)}</span>
         </FooterContent>
         <SubmitButton>Finalizar Compra</SubmitButton>
       </Content>
