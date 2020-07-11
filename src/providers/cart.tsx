@@ -1,5 +1,6 @@
 import React, { createContext, useState, useCallback, useContext, useEffect } from 'react'
 import api from '../services/api'
+import Cart from '../components/Cart';
 
 export interface Product {
   id: string
@@ -22,12 +23,15 @@ interface CartContextData {
   items: Product[],
   total: number;
   loading: boolean;
+  openCart: () => void;
+  closeCart: () => void;
   addToCart: (id: string) => Promise<void>;
   removeFromCart: (id: string) => Promise<void>;
   updateAmount: (id: string, amount: number) => Promise<void>
 }
 const CartContext = createContext<CartContextData>({} as CartContextData);
 const CartProvider: React.FC = ({children}) => {
+  const[isOpenModal, setIsOpenModal ] = useState<boolean>(false)
   const [loading ] = useState<boolean>(false)
   const [data, setData] = useState<CartState>({
     items: [],
@@ -47,6 +51,14 @@ const CartProvider: React.FC = ({children}) => {
       } as CartState;
     })
   },[])
+
+  const openCart = useCallback(() => {
+    setIsOpenModal(true)
+  }, [])
+
+  const closeCart = useCallback(() => {
+    setIsOpenModal(false)
+  }, [])
 
   const addToCart = useCallback(async (id: string) => {
     const response  = await api.get(`products/${id}`)
@@ -76,6 +88,7 @@ const CartProvider: React.FC = ({children}) => {
     })
 
   }, [])
+
   const removeFromCart = useCallback(async (id: string) => {
     setData(state => {
       const productExist = state.items.find(item => item.id === id)
@@ -116,9 +129,19 @@ const CartProvider: React.FC = ({children}) => {
   return (
     <>
       <CartContext.Provider
-        value={{items: data.items, total: data.total, loading, addToCart, removeFromCart, updateAmount}}
+        value={{
+          items: data.items,
+          total: data.total,
+          loading,
+          addToCart,
+          removeFromCart,
+          updateAmount,
+          openCart,
+          closeCart
+        }}
       >
         {children}
+        {isOpenModal && <Cart />}
       </CartContext.Provider>
     </>
   )

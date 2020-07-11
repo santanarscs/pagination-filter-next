@@ -126,15 +126,8 @@ const SubmitButton = styled.div`
   height: 60px;
 `;
 
-interface CartProps {
-  closeCart?: (isOpen: boolean) => void;
-}
-
-const Cart: React.FC<CartProps> = ({closeCart}) => {
-  const { items, removeFromCart, total, updateAmount } = useCart()
-  const handleCloseCart = useCallback(() => {
-    closeCart(false)
-  }, [])
+const Cart: React.FC = () => {
+  const { items, removeFromCart, total, updateAmount, closeCart } = useCart()
 
   const handleRemoveItem = useCallback(async (id: string) => {
     await removeFromCart(id);
@@ -149,7 +142,7 @@ const Cart: React.FC<CartProps> = ({closeCart}) => {
       <Content>
         <HeaderContent>
           <h1>Carrinho</h1>
-          <button onClick={handleCloseCart}><FiX size={30} /></button>
+          <button type="button" onClick={closeCart}><FiX size={30} /></button>
         </HeaderContent>
         <ul>
           {items.map(item => (
