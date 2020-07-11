@@ -7,10 +7,12 @@ import Pagination from '../components/Pagination';
 import Search from '../components/Search';
 import { formatPrice } from '../utils/formatPrice';
 import Link from 'next/link';
+import Navbar from '../components/Nav';
 
 const Container = styled.div`
   height: 100vh;
   display: flex;
+  flex-direction: column;
 `;
 const Content = styled.div`
   width: 1100px;
@@ -50,7 +52,7 @@ const ImageContainer = styled.div`
   position: relative;
   height: 260px;
   width: 100%;
-      
+
   img {
     opacity: 1;
     display: block;
@@ -143,14 +145,15 @@ export const Home: React.FC<HomeProps> = (): JSX.Element => {
 
   return (
     <Container>
+      <Navbar />
       <Content>
-        <h1>Lista de produtos </h1> 
+        <h1>Lista de produtos </h1>
         <Search placeholder="Buscar em produtos" handleSearch={handleSearch}/>
         <ProductsList>
           {products?.map(product => (
             <li key={product.id}>
               <ImageContainer>
-                <img src={`http://localhost:3333/files/${product.principal_image}`} alt={product.name}/> 
+                <img src={`http://localhost:3333/files/${product.principal_image}`} alt={product.name}/>
                 <div>
                   <Link href="/product/id" as={`/product/${product.id}`}>
                     <a >ver detalhes</a>
