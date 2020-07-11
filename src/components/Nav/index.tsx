@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import { FiShoppingBag } from 'react-icons/fi'
 import { useCart } from '../../providers/cart'
-import Link from "next/link";
 const Container = styled.div`
   width: 100%;
-  height: 50px;
-  background: ${({theme}) => theme.colors.gray1};
+  height: 40px;
+  background: ${({theme}) => theme.colors.gray2};
   display: flex;
   align-items: center;
 `
@@ -16,14 +15,11 @@ const Content = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  a {
-    text-decoration: none;
-    text-transform: uppercase;
+  button {
+    background: none;
+    border: none;
     color: ${({theme}) => theme.colors.text};
     position: relative;
-    & + a {
-      margin-left: 10px;
-    }
     svg {
       color: ${({theme}) => theme.colors.text};;
       transition: color .2s;
@@ -35,12 +31,12 @@ const Content = styled.div`
       background: ${({theme}) => theme.colors.primary};;
       color: ${({theme}) => theme.colors.white};
       border-radius: 50%;
-      width: 15px;
-      height: 15px;
+      width: 18px;
+      height: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
+      font-size: 13px;
     }
     &:hover {
       svg {
@@ -51,16 +47,14 @@ const Content = styled.div`
 `
 
 const Navbar: React.FC = () => {
-  const { items } = useCart();
+  const { items, openCart } = useCart();
   return (
     <Container>
       <Content>
-        <Link href="/cart">
-            <a>
-              {items.length > 0 && <span>{items.length}</span>}
-              <FiShoppingBag size={20}/>
-            </a>
-          </Link>
+        <button onClick={openCart}>
+          {items.length > 0 && <span>{items.length}</span>}
+          <FiShoppingBag size={20}/>
+        </button>
       </Content>
     </Container>
   )
