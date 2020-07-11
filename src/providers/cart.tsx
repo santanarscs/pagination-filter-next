@@ -60,7 +60,7 @@ const CartProvider: React.FC = ({children}) => {
         }
         const data = {
           items: [...state.items, product],
-          total: state.total + Number(product.price)
+          total: Number(state.total) + Number(product.price)
         }
         localStorage.setItem('@store-cart:items', JSON.stringify(data.items));
         localStorage.setItem('@store-cart:total', JSON.stringify(data.total));
@@ -68,7 +68,7 @@ const CartProvider: React.FC = ({children}) => {
       }
       const data = {
         items: state.items.map(item => item.id === isExistProduct.id ? Object.assign({}, item, {quantity: item.quantity + 1}) : item),
-        total: state.total + isExistProduct.price
+        total: state.total + Number(isExistProduct.price)
       }
       localStorage.setItem('@store-cart:items', JSON.stringify(data.items));
       localStorage.setItem('@store-cart:total', JSON.stringify(data.total));
@@ -79,18 +79,9 @@ const CartProvider: React.FC = ({children}) => {
   const removeFromCart = useCallback(async (id: string) => {
     setData(state => {
       const productExist = state.items.find(item => item.id === id)
-      if(productExist.quantity > 1) {
-        const data = {
-          items: state.items.map(item => item.id === productExist.id ? Object.assign({}, item, {quantity: item.quantity - 1}) : item),
-          total: state.total - productExist.price
-        }
-        localStorage.setItem('@store-cart:items', JSON.stringify(data.items));
-        localStorage.setItem('@store-cart:total', JSON.stringify(data.total));
-        return data
-      }
       const data = {
         items: state.items.filter(item => item.id !== productExist.id),
-        total: state.total - productExist.price
+        total: state.total - Number(productExist.price * productExist.quantity)
       }
       localStorage.setItem('@store-cart:items', JSON.stringify(data.items));
       localStorage.setItem('@store-cart:total', JSON.stringify(data.total));
@@ -107,10 +98,19 @@ const CartProvider: React.FC = ({children}) => {
       return;
     }
     setData(state => {
-      const productIndex = state.items.findIndex(product => product.id === id);
-        state.items.splice(productIndex, 1)
-        product.quantity = amount
-        return { ...state, items: [...state.items, product] }
+      const findProduct = state.items.find(product => product.id === id);
+      let total = state.total - Number(findProduct.price * findProduct.quantity);
+      findProduct.quantity = amount
+      total = total + Number(findProduct.price * findProduct.quantity)
+      const items = state.items.filter(product => product.id !== findProduct.id )
+
+      const data = {
+        items: [...items, findProduct],
+        total
+      }
+      localStorage.setItem('@store-cart:items', JSON.stringify(data.items));
+      localStorage.setItem('@store-cart:total', JSON.stringify(data.total));
+      return data
     })
   }, [])
   return (
