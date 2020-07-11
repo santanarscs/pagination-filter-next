@@ -2,18 +2,20 @@ import styled from "styled-components"
 import { GetServerSideProps } from "next";
 import api from "../../../services/api";
 import { formatPrice } from "../../../utils/formatPrice";
+import Navbar from "../../../components/Nav";
+import { useCallback } from "react";
+import { useCart } from "../../../providers/cart";
 
 const Container = styled.div`
   height: 100vh;
   display: flex;
+  flex-direction: column;
 `;
 const Content = styled.div`
   width: 1100px;
   padding:30px;
   margin: 0 auto;
   display: flex;
-  /* flex-direction: column; */
-  
 `
 const ProductInformation = styled.div`
   margin-left: 40px;
@@ -99,17 +101,23 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
       product: response.data
     }
   }
-} 
+}
 
 const Product: React.FC<ProductProps> = ({product}) => {
+  const { addToCart } = useCart()
+  const handleAddCart = useCallback(async () => {
+    await addToCart(product.id)
+  }, [product])
+
   return (
     <Container>
+      <Navbar />
       <Content>
         <ImageContainer>
         <img src={`http://localhost:3333/files/${product.principal_image}`} alt={product.name}/>
         </ImageContainer>
         <ProductInformation>
-          <h2>{product.name}</h2>  
+          <h2>{product.name}</h2>
           <div>
             <span>Valor:</span>
             <h1>{formatPrice(product.price)}</h1>
@@ -117,7 +125,7 @@ const Product: React.FC<ProductProps> = ({product}) => {
               <button>-</button> <span>1</span><button>+</button>
             </ButtonGroup>
           </div>
-          <button>ADICIONAR AO CARRINHO</button>
+          <button onClick={handleAddCart}>ADICIONAR AO CARRINHO</button>
           <div>
             <strong>Detalhes</strong>
             <p>Descrição: {product.description}</p>
