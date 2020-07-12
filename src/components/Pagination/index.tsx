@@ -35,14 +35,14 @@ const Pagination: React.FC<PaginationProps> = ({totalPages, totalCount}) => {
     const link = Array(totalPages || 1).fill('');
     setArrayPages(link.map((link, index) => index + 1))
   },[totalPages])
-  
+
   return (
     <Container>
       <ul>
       {arrayPages.map(page => (
         <li key={page}>
           <Link href={{
-            pathname: "/",
+            pathname: `/products/${query.categoryId}`,
             query: {...query, page}
           }}
           shallow
