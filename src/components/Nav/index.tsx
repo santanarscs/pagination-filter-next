@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FiShoppingBag } from 'react-icons/fi'
+import { FiShoppingBag, FiCloud } from 'react-icons/fi'
 import { useCart } from '../../providers/cart'
 import Link from "next/link";
 const Container = styled.div`
@@ -8,6 +8,7 @@ const Container = styled.div`
   background: ${({theme}) => theme.colors.gray2};
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #e2e2e2;
 `
 const Content = styled.div`
   margin: 0 auto;
@@ -17,6 +18,7 @@ const Content = styled.div`
   justify-content: flex-end;
   align-items: center;
   button {
+    margin-top: 10px;
     background: none;
     border: none;
     color: ${({theme}) => theme.colors.text};
@@ -60,6 +62,12 @@ const MenuContent = styled.div`
   width: 1100px;
   display: flex;
   align-items: center;
+  span {
+    margin-right: 16px;
+    svg {
+      color: ${({theme}) => theme.colors.primary};
+    }
+  }
   ul {
     list-style: none;
     display: flex;
@@ -99,7 +107,15 @@ const Navbar: React.FC<NavbarProps> = ({categories}) => {
     </Container>
     <Menu>
       <MenuContent>
+        <span>
+          <FiCloud size={42}/>
+        </span>
         <ul>
+          <li>
+            <Link href="/">
+              <a>Home</a>
+            </Link>
+          </li>
           {categories?.map(category => (
             <li key={category.id}>
               <Link href="/products/categoryId" as={`/products/${category.id}`}>
