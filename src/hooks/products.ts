@@ -4,9 +4,9 @@ import api from "../services/api";
 const fetcher = url => api.get(url).then(res => res)
 
 function useProducts(search) {
-  const { term, page } = search
+  const { term, page, limit, categoryId } = search;
 
-  const { data: response, error } = useSWR(`products?q=${term || ""}&_page=${page || 1}&_limit=5`, fetcher)
+  const { data: response, error } = useSWR(categoryId ? `products?q=${term || ""}&category_id=${categoryId}&_page=${page || 1}&_limit=${limit || 5}` : `products?q=${term || ""}&_page=${page || 1}&_limit=${limit || 5}`, fetcher)
 
   return {
     products: response?.data,
