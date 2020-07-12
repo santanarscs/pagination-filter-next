@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { formatPrice } from "../../../utils/formatPrice";
 import Link from "next/link";
 import Pagination from "../../../components/Pagination";
+import Navbar from "../../../components/Nav";
+import api from "../../../services/api";
+import { GetServerSideProps } from "next";
 
 const Container = styled.div`
   height: 100vh;
@@ -12,7 +15,7 @@ const Container = styled.div`
 `;
 const Content = styled.div`
   width: 1100px;
-  padding:30px;
+  padding:30px 0;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -91,9 +94,26 @@ const ImageContainer = styled.div`
   }
 `;
 
+interface Category {
+  id: string;
+  name: string;
+}
+
+interface ProductProps {
+  categories: Category[];
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const response = await api.get('categories')
+  return {
+    props:{
+      categories: response.data
+    }
+  }
+}
 
 
-const Products: React.FC = () => {
+const Products: React.FC<ProductProps> = ({categories}) => {
   const { query } = useRouter();
   const { products, isError, isLoading, totalCount, totalPages} = useProducts(query)
   if(isError) {
@@ -117,6 +137,7 @@ const Products: React.FC = () => {
 
   return (
     <Container>
+      <Navbar categories={categories}/>
       <Content>
         <h1>Lista de produtos </h1>
         <ProductsList>

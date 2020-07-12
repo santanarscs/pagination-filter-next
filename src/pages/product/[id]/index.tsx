@@ -2,9 +2,9 @@ import styled from "styled-components"
 import { GetServerSideProps } from "next";
 import api from "../../../services/api";
 import { formatPrice } from "../../../utils/formatPrice";
-import Navbar from "../../../components/Nav";
 import { useCallback } from "react";
 import { useCart } from "../../../providers/cart";
+import Navbar from "../../../components/Nav";
 
 const Container = styled.div`
   height: 100vh;
@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 const Content = styled.div`
   width: 1100px;
-  padding:30px;
+  padding:30px 0;
   margin: 0 auto;
   display: flex;
 `
@@ -90,11 +90,20 @@ interface Product {
   formatterPrice?: string
 }
 
+
+interface Category {
+  id: string;
+  name: string;
+}
+
 interface ProductProps {
   product: Product
+  categories: Category[];
 }
 
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
+
+  const {data: categories} = await api.get('categories')
   const { id } = params;
   const response = await api.get(`products/${id}`)
   const product = {
@@ -103,12 +112,13 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
   }
   return {
     props: {
+      categories,
       product
     }
   }
 }
 
-const Product: React.FC<ProductProps> = ({product}) => {
+const Product: React.FC<ProductProps> = ({product, categories}) => {
   const { addToCart, openCart } = useCart()
   const handleAddCart = useCallback(async () => {
     await addToCart(product.id)
@@ -116,7 +126,7 @@ const Product: React.FC<ProductProps> = ({product}) => {
   }, [product])
   return (
     <Container>
-      <Navbar />
+      <Navbar categories={categories}/>
       <Content>
         <ImageContainer>
         <img src={`http://localhost:3333/files/${product.principal_image}`} alt={product.name}/>
