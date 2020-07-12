@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {  useCallback } from "react";
+import Router from 'next/router'
 import { FiX, FiTrash, FiMinus, FiPlus } from "react-icons/fi";
 import { useCart } from "../../providers/cart";
 import { formatPrice } from "../../utils/formatPrice";
@@ -137,6 +138,11 @@ const Cart: React.FC = () => {
     await updateAmount(id, amount)
   },[])
 
+  const handleCheckout = useCallback(() => {
+    closeCart();
+    Router.push('/checkout')
+  },[])
+
   return (
     <Container>
       <Content>
@@ -171,7 +177,7 @@ const Cart: React.FC = () => {
           <h1>Subtotal</h1>
           <span>{formatPrice(total)}</span>
         </FooterContent>
-        <SubmitButton>Finalizar Compra</SubmitButton>
+        <SubmitButton onClick={handleCheckout}>Finalizar Compra</SubmitButton>
       </Content>
     </Container>
   )
