@@ -3,7 +3,8 @@ import { useCart } from '../providers/cart';
 import { FiTrash, FiLock, FiMinus, FiPlus } from 'react-icons/fi';
 import { formatPrice } from '../utils/formatPrice';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import Router  from 'next/router';
 
 const Container = styled.div`
   height: 100vh;
@@ -165,6 +166,12 @@ const CuponContainer = styled.div`
 const Checkout: React.FC = () => {
   const { items, total, updateAmount, removeFromCart } = useCart()
   const [deliveryValue, setDeliveryValue] = useState<number>(0)
+  const handlePayment = useCallback(() => {
+    Router.push({
+      pathname: '/payment'
+    })
+
+  }, [])
   return (
     <Container>
       <Navbar>
@@ -257,7 +264,7 @@ const Checkout: React.FC = () => {
                 </Row>
               </li>
             </ul>
-            <button>Fechar pedido</button>
+            <button onClick={handlePayment}>Fechar pedido</button>
           </CheckoutDetail>
         </Row>
       </Content>
