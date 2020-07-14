@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { FiLock, FiTruck, FiCreditCard } from "react-icons/fi";
-import DayPicker, { DayModifiers } from 'react-day-picker';
+import { FiLock, FiTruck, FiCreditCard, FiUser } from "react-icons/fi";
 import Link from "next/link";
+import ChoicePayment from "../components/ChoicePayment";
 
 const Container = styled.div`
   height: 100vh;
@@ -55,8 +55,71 @@ const Row = styled.div`
 const InformationDetail = styled.div`
   display: flex;
   flex: 1;
-  flex-direction: column;
+  flex-wrap: wrap;
   margin-right: 20px;
+`;
+
+const CardInformation = styled.div`
+  margin: 10px 0;
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+`;
+
+const HeaderDetail = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f4f4f4;
+  padding:  6px 16px;
+  color: #555;
+  > div {
+    display: flex;
+    align-items: center;
+    span {
+      font-size: 14px;
+      border-radius: 50%;
+      padding: 6px 10px;
+      margin-right: 6px;
+      font-weight: bold;
+      background: #fff;
+    }
+    h3 {
+      font-weight: bold;
+      font-size: 16px;
+    }
+  }
+`;
+const PersonDetail = styled.div`
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  span {
+    line-height: 32px;
+  }
+`;
+const DeliveryDetail = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  span {
+    line-height: 32px;
+  }
+  small {
+    margin-left: auto;
+    align-self:center;
+  }
+  button {
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    padding: 0 10px;
+    background: #e6e6e6;
+  }
+`;
+const PaymentDetail = styled.div`
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const DetailOrder = styled.div`
@@ -119,33 +182,52 @@ const Payment: React.FC = () => {
         </Link>
         <Row>
           <InformationDetail>
-            <h3>Dados de entrega</h3>
-            <DayPicker
-              weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
-              fromMonth={new Date()}
-              // disabledDays={[{ daysOfWeek: [0, 6] }, ...disableDays]}
-              modifiers={{
-                available: { daysOfWeek: [1, 2, 3, 4, 5] },
-              }}
-              // onMonthChange={handleMonthChange}
-              // selectedDays={selectedDate}
-              // onDayClick={handleDateChange}
-              months={[
-                'Janeiro',
-                'Fevereiro',
-                'Março',
-                'Abril',
-                'Maio',
-                'Junho',
-                'Julho',
-                'Agosto',
-                'Setembro',
-                'Outubro',
-                'Novembro',
-                'Dezembro',
-              ]}
-            />
-
+            <CardInformation style={{flex: '1 1 calc(25% - 10px)', marginRight: 20}}>
+              <HeaderDetail>
+                <div>
+                  <span>1</span>
+                  <h3>Dados Pessoais</h3>
+                </div>
+                <FiUser size={25} />
+              </HeaderDetail>
+              <PersonDetail>
+                <span>raphaelstn@gmail.com</span>
+                <span>Nome: Raphael Santana</span>
+                <span>Telefone: (61) 98262-2228</span>
+              </PersonDetail>
+            </CardInformation>
+            <CardInformation style={{flex: '1 1 50%'}}>
+                <HeaderDetail>
+                  <div>
+                    <span>2</span>
+                    <h3>Entrega</h3>
+                  </div>
+                  <FiTruck size={25} />
+                </HeaderDetail>
+                <DeliveryDetail>
+                  <Row>
+                    <div style={{width: "50%"}}>
+                      <span>Quadra QI 23 Lote 14, 307 Bloco B</span>
+                      <span>Guará II - Brasília DF</span>
+                      <span>71060639</span>
+                    </div>
+                    <small>R$ 19,12</small>
+                  </Row>
+                  <button>Alterar opções de entrega</button>
+              </DeliveryDetail>
+            </CardInformation>
+            <CardInformation style={{flex: '1 1 100%'}}>
+              <HeaderDetail>
+                <div>
+                  <span>3</span>
+                  <h3>Pagament</h3>
+                </div>
+                <FiCreditCard size={25} />
+              </HeaderDetail>
+              <PaymentDetail>
+               <ChoicePayment />
+              </PaymentDetail>
+            </CardInformation>
           </InformationDetail>
           <DetailOrder>
             <ul>
