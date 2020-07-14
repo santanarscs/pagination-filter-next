@@ -50,7 +50,7 @@ const FormCreditCard = styled.div`
 `
 
 const ChoicePayment: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('')
+  const [activeTab, setActiveTab] = useState<string>('CreditCard')
   const handleChangeTab = (label: string) => {
     setActiveTab(label)
   }
