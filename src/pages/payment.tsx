@@ -220,7 +220,7 @@ const Payment: React.FC = () => {
               <HeaderDetail>
                 <div>
                   <span>3</span>
-                  <h3>Pagament</h3>
+                  <h3>Pagamento</h3>
                 </div>
                 <FiCreditCard size={25} />
               </HeaderDetail>
