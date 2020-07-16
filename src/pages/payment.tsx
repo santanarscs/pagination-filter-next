@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { FiLock, FiTruck, FiCreditCard, FiUser } from "react-icons/fi";
 import Link from "next/link";
 import ChoicePayment from "../components/ChoicePayment";
+import Calendar from "../components/Calandar";
 
 const Container = styled.div`
   height: 100vh;
@@ -115,11 +116,18 @@ const DeliveryDetail = styled.div`
     padding: 0 10px;
     background: #e6e6e6;
   }
+  textarea {
+    height: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    resize: none;
+  }
 `;
 const PaymentDetail = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
+
 `;
 
 const DetailOrder = styled.div`
@@ -200,7 +208,7 @@ const Payment: React.FC = () => {
                 <HeaderDetail>
                   <div>
                     <span>2</span>
-                    <h3>Entrega</h3>
+                    <h3>Endereço de entrega</h3>
                   </div>
                   <FiTruck size={25} />
                 </HeaderDetail>
@@ -216,10 +224,34 @@ const Payment: React.FC = () => {
                   <button>Alterar opções de entrega</button>
               </DeliveryDetail>
             </CardInformation>
+            <CardInformation style={{flex: '1 1 50%'}}>
+                <HeaderDetail>
+                  <div>
+                    <span>3</span>
+                    <h3>Deixe uma mensagem</h3>
+                  </div>
+                  <FiTruck size={25} />
+                </HeaderDetail>
+                <DeliveryDetail>
+                  <textarea name="" id=""   rows={10}></textarea>
+              </DeliveryDetail>
+            </CardInformation>
+            <CardInformation style={{flex: '1 1 calc(25% - 10px)', marginLeft: 20}}>
+                <HeaderDetail>
+                  <div>
+                    <span>4</span>
+                    <h3>Data de entrega</h3>
+                  </div>
+                  <FiTruck size={25} />
+                </HeaderDetail>
+                <DeliveryDetail>
+                  <Calendar />
+              </DeliveryDetail>
+            </CardInformation>
             <CardInformation style={{flex: '1 1 100%'}}>
               <HeaderDetail>
                 <div>
-                  <span>3</span>
+                  <span>5</span>
                   <h3>Pagamento</h3>
                 </div>
                 <FiCreditCard size={25} />
