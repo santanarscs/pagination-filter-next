@@ -3,7 +3,7 @@ import { useCart } from '../providers/cart';
 import { FiTrash, FiLock, FiMinus, FiPlus } from 'react-icons/fi';
 import { formatPrice } from '../utils/formatPrice';
 import Link from 'next/link';
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import Router  from 'next/router';
 
 const Container = styled.div`
@@ -165,12 +165,10 @@ const CuponContainer = styled.div`
 
 const Checkout: React.FC = () => {
   const { items, total, updateAmount, removeFromCart } = useCart()
-  const [deliveryValue, setDeliveryValue] = useState<number>(0)
   const handlePayment = useCallback(() => {
     Router.push({
       pathname: '/payment'
     })
-
   }, [])
   return (
     <Container>
@@ -230,15 +228,6 @@ const Checkout: React.FC = () => {
           <CheckoutDetail>
             <ul>
               <li>
-                <h2>Entrega</h2>
-                <select name="entrega" id="entrega" onChange={(e) => setDeliveryValue(Number(e.target.value))}>
-                  <option value="">.: Selecione :.</option>
-                  <option value="5">Guará</option>
-                  <option value="10">Taguatinga</option>
-                  <option value="100">Vicente Pires</option>
-                </select>
-              </li>
-              <li>
                 <h2>Cupom de desconto</h2>
                 <CuponContainer>
                   <input type="text" name="cupom_desconto"/>
@@ -253,14 +242,8 @@ const Checkout: React.FC = () => {
               </li>
               <li>
                 <Row>
-                  <h2>Entrega</h2>
-                  <span>{formatPrice(deliveryValue)}</span>
-                </Row>
-              </li>
-              <li>
-                <Row>
                   <h2>Total</h2>
-                  <span>{formatPrice(total + Number(deliveryValue))}</span>
+                  <span>{formatPrice(total)}</span>
                 </Row>
               </li>
             </ul>
