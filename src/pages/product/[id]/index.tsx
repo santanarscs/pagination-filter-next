@@ -5,6 +5,7 @@ import { formatPrice } from "../../../utils/formatPrice";
 import { useCallback } from "react";
 import { useCart } from "../../../providers/cart";
 import Navbar from "../../../components/Nav";
+import Footer from "../../../components/Footer";
 
 const Container = styled.div`
   height: 100vh;
@@ -13,6 +14,7 @@ const Container = styled.div`
 `;
 const Content = styled.div`
   width: 1100px;
+  height: 100vh;
   padding:30px 0;
   margin: 0 auto;
   display: flex;
@@ -147,6 +149,7 @@ const Product: React.FC<ProductProps> = ({product, categories}) => {
           </div>
         </ProductInformation>
       </Content>
+      <Footer categories={categories} />
     </Container>
   )
 }
