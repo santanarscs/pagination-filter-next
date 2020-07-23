@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FiShoppingBag, FiCloud } from 'react-icons/fi'
+import { FiShoppingBag } from 'react-icons/fi'
 import { useCart } from '../../providers/cart'
 import Link from "next/link";
 const Container = styled.div`
@@ -50,7 +50,7 @@ const Content = styled.div`
 `
 const Menu = styled.div`
   width: 100%;
-  height: 70px;
+  height: 80px;
   display: flex;
   align-items: center;
 `
@@ -106,7 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({categories}) => {
     <Menu>
       <MenuContent>
         <span>
-          <img src="./logo.png" alt="Boutique"/>
+          <img src="../logo.png" alt="Boutique"/>
         </span>
         <ul>
           <li>
