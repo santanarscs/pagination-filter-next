@@ -48,8 +48,6 @@ const Content = styled.div`
     }
   }
 `
-
-
 const Menu = styled.div`
   width: 100%;
   height: 70px;
@@ -108,7 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({categories}) => {
     <Menu>
       <MenuContent>
         <span>
-          <FiCloud size={42}/>
+          <img src="./logo.png" alt="Boutique"/>
         </span>
         <ul>
           <li>
