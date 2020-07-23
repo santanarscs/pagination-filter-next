@@ -7,6 +7,8 @@ import Pagination from "../../../components/Pagination";
 import Navbar from "../../../components/Nav";
 import api from "../../../services/api";
 import { GetServerSideProps } from "next";
+import Footer from "../../../components/Footer";
+import NewsLetter from "../../../components/NewsLetter";
 
 const Container = styled.div`
   height: 100vh;
@@ -15,6 +17,7 @@ const Container = styled.div`
 `;
 const Content = styled.div`
   width: 1100px;
+  height: 100vh;
   padding:30px 0;
   margin: 0 auto;
   display: flex;
@@ -119,6 +122,7 @@ const Products: React.FC<ProductProps> = ({categories}) => {
   if(isError) {
     return (
       <Container>
+        <Navbar categories={categories}/>
         <Content>
           <h1>Algo de errado não esta certo</h1>
         </Content>
@@ -128,9 +132,12 @@ const Products: React.FC<ProductProps> = ({categories}) => {
   if(isLoading) {
     return (
       <Container>
+        <Navbar categories={categories}/>
         <Content>
           <h1>Carregando</h1>
         </Content>
+        <NewsLetter />
+        <Footer categories={categories} />
       </Container>
     )
   }
@@ -158,6 +165,7 @@ const Products: React.FC<ProductProps> = ({categories}) => {
         </ProductsList>
         <Pagination totalPages={totalPages} totalCount={totalCount}/>
       </Content>
+      <Footer categories={categories} />
     </Container>
   )
 }
